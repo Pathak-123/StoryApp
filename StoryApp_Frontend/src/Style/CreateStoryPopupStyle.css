@@ -1,0 +1,233 @@
+.create-story-popup-overlay {
+    position: fixed;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    width: 682px;
+    height:400px; 
+    max-width: 90vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+  }
+.create-story-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;    
+     z-index: 999; 
+     border-radius: 20px;
+     padding:40px;
+  }
+  .popup-text {
+    text-align: end;
+    margin-bottom: 0px;
+}
+.close-icon {
+  position: absolute;
+  top: 10px; 
+  right: 20px;
+  color:red;
+  border-radius: 100%;
+  border:2px solid red;
+text-align: center; 
+padding: 4px;
+ font-size:14px;
+  font-weight: bold;
+  width:25px;
+  height:25px;
+  background-color: white;
+  cursor: pointer; 
+}
+.add-slider-container{
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  /* height:80px; */
+  overflow-x: auto;
+
+}
+.add-slider-button{
+  border-radius: 10px;
+  width:70px;
+  height:50px;
+  background-color: white;
+  text-align: center;
+  align-content: center;
+  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  font-weight: bold;  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.add-slider-button p{
+  text-align: center;
+  align-content: center;
+  margin-right: 2px;
+}
+.add-slider{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-bottom: 10px;
+}
+.add-slider-close-icon{
+  color:red;
+  border-radius: 100%;
+  border:1px solid red;
+text-align: center; 
+ font-size:12px;
+  font-weight: bold;
+  width:15px;
+  height:15px;
+  background-color: white;
+  cursor: pointer; 
+  position: absolute;
+  right: 8px;
+
+}
+.create-story-form{
+  height:70%;
+  margin-top: 10px  ;
+}
+.create-story-form-row{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.create-story-form-row label{
+  width:30%;
+}
+.create-story-form-row input,
+.create-story-form-row select,
+.create-story-form-row textarea {
+  width:35%;
+  border: 2px solid black;
+  border-radius: 2px;
+}
+textarea{
+  align-content: start;
+  padding: 10px;
+  height:50px;
+}
+
+
+.create-story-form-row input::placeholder,.create-story-form-row textarea::placeholder {
+  color: black;
+  font-size: 16px;
+
+}
+.create-story-form-row select {
+  position: relative;
+  display: block;
+  padding: 10px;
+  border: 2px solid black;
+  font-size: 16px;
+  width: 39%;
+  margin-bottom: 10px; 
+  border-radius: 2px;
+}
+.create-story-form-row select option {
+  color: black;
+  font-weight: bold;
+}
+.create-story-form-buttons-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+.create-story-form-buttons{
+  width:50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+.previous-button{
+  background-color: #7EFF73;
+}
+.post-button{
+  background-color: #FF7373;
+margin-right: 30px;
+}
+.popup-mobile-text{
+  display: none;
+}
+@media (max-width: 768px) {
+  .create-story-popup-overlay {
+    width:80%;
+    height:550px;
+  }
+  .popup-text{
+    display: none;
+
+  }
+  .popup-mobile-text{
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+
+  }
+  .add-slider-container{
+    flex-direction: column;
+  }
+  .create-story-form-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 100%;
+    margin-top: 20px;
+  }
+  .create-story-popup {
+    padding-left:10px;
+    padding-right:10px; 
+   }
+.create-story-form-row{
+  flex-direction: column;
+
+}
+
+.create-story-form-buttons{
+  width:0%;
+  display: none;
+}
+
+.add-slider-container{
+  width:100px;
+}
+.create-story-form{
+  width:250px;
+}
+.create-story-form-row label{
+  width:100%;
+}
+.create-story-form-row input,
+.create-story-form-row select,
+.create-story-form-row textarea{
+  width:80%;
+}
+.create-story-form-row select{
+  width:92%;
+}
+.add-slider-button{
+  width:60px;
+  flex-direction: column;
+}
+}
+

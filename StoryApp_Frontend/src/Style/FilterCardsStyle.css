@@ -1,0 +1,59 @@
+.filter-cards-container {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    padding: 40px 40px 0px 40px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    
+}
+.filter-cards-container::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.filter-cards-container::-webkit-scrollbar-thumb {
+  background: rgb(224, 223, 223); 
+  border-radius: 10px;
+}
+
+.filter-cards-container::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+.filter-card {
+      flex: 0 0 auto;
+    width:250px;
+    height:200px;
+    border-radius: 20px;
+    border: 5px solid white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+    background-size: cover; 
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+.filter-card.active{
+    border: 5px solid #00ACD2;
+}
+.filter-card-text {
+    color: white;
+    width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    z-index: 1;
+  }
+

@@ -1,0 +1,159 @@
+
+.story-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  background: transparent;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1001;
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slide-navigation {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-button {
+  color: white;
+  cursor: pointer;
+  font-size: 30px;
+  background-color:transparent;
+  border: none;
+}
+
+.nav-button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.slide-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+
+}
+
+.slide {
+  width: 260px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  /* align-items: flex-end; */
+  border-radius: 10px;
+  overflow: hidden;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.slide-overlay{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.slide-bookmark-like-action-container{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-content: center;
+  margin-left: 40px;
+  margin-right: 20px;
+}
+.slide-close-share-container
+{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-content: center;
+  padding: 10px;
+}
+.slide-title{
+  font-size:  18px;
+  margin-bottom: 2px;
+}
+.slide-text{
+  font-size: 15px;
+}
+.slide-close-icon{
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+.slides-line-container{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 10px 0px 0px 10px;
+}
+.slide-line-wrapper {
+  flex: 1;
+  height: 3px;
+  background-color: grey;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 4px;
+}
+.slide-line {
+  height: 100%;
+  background-color: white;
+  transition: width 0.15s linear;
+  width: 0%;
+}
+
+.slide-line.active {
+  animation: progress-animation 15s linear forwards;
+}
+.empty-div-slide{
+  height:calc(400px - 155px);
+  display: flex;
+  justify-content: space-between;
+
+}
+.left-empty-div, .right-empty-div{
+  width:50%;
+}
+
+
+@keyframes progress-animation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) 
+{
+  .nav-button {
+   display: none;
+  }
+}

@@ -1,0 +1,59 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family:'Arial'
+}
+.error-message{
+  color:red;
+  text-align: center;
+}
+  
+.btn {
+    margin-left: 10px;
+    background-color: #73ABFF;
+    color: white;
+    border: none;
+    height:45px;
+    width:136px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .popup-close-icon{
+    position: absolute;
+    top:20px;
+    color:red;
+    border-radius: 100%;
+    border:2px solid red;
+text-align: center; 
+padding: 4px;
+right:20px;
+   font-size:16px;
+    font-weight: bold;
+    width:30px;
+    height:30px;
+    background-color: white;
+    cursor: pointer;
+  }
+  .text{
+    font-size: 16px;
+  }
+  .heading{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .background-blurred {
+    filter: blur(5px);
+    pointer-events: none; 
+  }
+  .no-scroll {
+    overflow: hidden;
+  }
+  .btn:hover{
+    border: 3px solid #00ACD2;
+  }
+  .btn-active{
+    border: 3px solid #00ACD2;
+  }
