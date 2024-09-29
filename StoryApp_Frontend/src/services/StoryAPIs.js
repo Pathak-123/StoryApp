@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL  = 'http://localhost:3000/api/v1/story';
+// const API_URL  = 'http://localhost:3000/api/v1/story';
+const API_URL  = 'https://storyapp-rptt.onrender.com/api/v1/story';
+
 
 export const createStory = async (createStoryData) => {
     try {

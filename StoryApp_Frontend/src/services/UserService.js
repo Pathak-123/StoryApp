@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL  = 'http://localhost:3000/api/v1/user';
+// const API_URL  = 'http://localhost:3000/api/v1/user';
+const API_URL  = 'https://storyapp-rptt.onrender.com/api/v1/user';
 
 export const registerUser = async (registerData) => {
     try {
