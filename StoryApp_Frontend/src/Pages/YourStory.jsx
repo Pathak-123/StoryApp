@@ -18,8 +18,17 @@ function YourStory({activeCategories}) {
   const [edit, setEdit] = useState(null);
   useEffect(() => {
     const loadYourStories = async () => {
+      const categoryMapping = {
+        1: 'All', 
+        2: 'Education',
+        3: 'Food',
+        4: 'Health and fitness',
+        5: 'Movies',
+        6: 'Travel'
+      };
+      const setYourStoryLabel = categoryMapping[activeCategories];
       try {
-          const fetchStories = await getUserStories(activeCategories);
+          const fetchStories = await getUserStories(setYourStoryLabel);
           if(fetchStories.success){
             setUserStories(fetchStories.stories);
         }

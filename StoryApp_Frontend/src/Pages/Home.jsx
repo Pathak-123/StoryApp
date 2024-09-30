@@ -46,12 +46,12 @@ function Home() {
     setSearchParams(searchParams);
   };
 
-  const handleCategoryChange = async (label) => {
+  const handleCategoryChange = async (label,categoryID) => {
     setShimmer(true); 
-    if (label !== activeCategories) {
-      setActiveCategories(label); 
+    if (categoryID !== activeCategories) {
+      setActiveCategories(categoryID); 
       try {
-        if (label === 1) {
+        if (categoryID === 1) {
           const fetchStories = await getStory();
           if(fetchStories.success)
           setCategories(fetchStories.stories);

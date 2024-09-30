@@ -332,18 +332,15 @@ const createStory = async (req, res) => {
 
 
   const getStoriesBy = async (req, res) => {
-    const categoryMapping = {
-      1: 'All', 
-      2: 'Education',
-      3: 'Food',
-      4: 'Health and fitness',
-      5: 'Movies',
-      6: 'Travel'
-      
-    };
     try {
-      const { categoryId } = req.params;
-      const category = categoryMapping[categoryId];
+      let { categoryId } = req.params;
+      let category ;
+      if(categoryId==='Health-and-fitness'){
+        category = 'Health and fitness';
+      }
+      else{
+        category = categoryId;
+      }
 
      
       const categorizedStories = await Story.aggregate([
@@ -427,25 +424,19 @@ const createStory = async (req, res) => {
   };
 
   const getUserStories = async (req, res) => {
-    const categoryMapping = {
-      1: 'All',
-      2: 'Education',
-      3: 'Food',
-      4: 'Health and fitness',
-      5: 'Movies',
-      6: 'Travel'
-    };
     try {
       const  userId  = req.user._id;
-      const { categoryId } = req.params;
-      const category = categoryMapping[categoryId];
+      let { categoryId } = req.params;
+      if(categoryId==='Health-and-fitness'){
+        categoryId='Health and fitness';
+      }
       let userStories;
-      if (categoryId && category == 'All') {
+      if (categoryId && categoryId == 'All') {
          userStories = await Story.find({ user: userId });
       }
       else{
         let query = { user: userId };
-        query.category = category;
+        query.category = categoryId;
        
          userStories = await Story.find(query);
       }

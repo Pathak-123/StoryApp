@@ -20,7 +20,7 @@ function FilterCards({ onCategoryChange }) {
 
   const handleCardClick = (categoryId, label) => {
     setActiveCategory(categoryId);
-    onCategoryChange(categoryId);
+    onCategoryChange(label,categoryId);
   };
   return (
     <div className="filter-cards-container">
