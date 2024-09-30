@@ -201,6 +201,10 @@ return () => clearInterval(timer);
   };
  
   const handleDownloadClick = async () => {
+    if (!isAuthenticated) {
+      toggleLoginPopup();
+      return;
+    }
     const currentSlide = slides[currentSlideIndex];
     const fileUrl = currentSlide.mediaUrl;
     try {
