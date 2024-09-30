@@ -125,6 +125,8 @@ export const createStory = async (createStoryData) => {
 
   export const getStoryByCategory = async (label) => {
     try {
+      if(label==='Health and fitness')
+        label='Health-and-fitness';
       const response = await axios.get(`${API_URL}/getcategory/${label}`);
       return response.data;
     } catch (error) {
@@ -134,7 +136,10 @@ export const createStory = async (createStoryData) => {
 
   export const getUserStories = async (activeCategories) => {
     try {
-      const response = await axios.get(`${API_URL}/yourStory/${activeCategories}`,{
+      if(activeCategories==='Health and fitness')
+        activeCategories='Health-and-fitness';
+      const yourstorywithCategory = "YourStory_" + activeCategories; 
+      const response = await axios.get(`${API_URL}/yourStory/${yourstorywithCategory}`,{
         headers: {
         Authorization: `${localStorage.getItem('token')}`
       }

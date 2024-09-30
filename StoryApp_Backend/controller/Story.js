@@ -427,6 +427,10 @@ const createStory = async (req, res) => {
     try {
       const  userId  = req.user._id;
       let { categoryId } = req.params;
+      if (categoryId.startsWith('YourStory_')) {
+        categoryId = categoryId.replace('YourStory_', '');
+        categoryId = categoryId.trim();
+    }
       if(categoryId==='Health-and-fitness'){
         categoryId='Health and fitness';
       }
