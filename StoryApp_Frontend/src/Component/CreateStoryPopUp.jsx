@@ -83,10 +83,12 @@ function CreateStoryPopUp({ editingStory }) {
         slide.category.trim() !== ""
     );
     if (!isValid) {
+      toast.dismiss();
       toast.error("Please fill all fields for each slide.");
       return;
     }
     setLoading(true);
+    toast.dismiss();
     const checkAllSlides = async () => {
       for (let i = 0; i < addSlider.length; i++) {
         const { mediaUrl } = addSlider[i];
@@ -273,8 +275,7 @@ function CreateStoryPopUp({ editingStory }) {
             </div>
             {loading && (
               <div>
-                {" "}
-                <Loader />{" "}
+                <Loader />
               </div>
             )}
           </form>

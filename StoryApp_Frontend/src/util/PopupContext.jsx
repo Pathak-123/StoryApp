@@ -73,6 +73,7 @@ useEffect(() => {
 const logout = () => {
   setIsAuthenticated(false);
   setUserName('');
+  navigate("/");
 };
 
   return (

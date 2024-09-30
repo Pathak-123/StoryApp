@@ -58,6 +58,7 @@ function LoginRegisterForm({popupHeading}) {
         }
         setErrors({});
         setLoading(true); 
+        toast.dismiss();
         try {
           let response;
           if(popupHeading == 'Register'){
@@ -69,7 +70,7 @@ function LoginRegisterForm({popupHeading}) {
         if(response.success == true){
           localStorage.setItem('token', response.token);
           AuthUser(response.token, formData.username);
-          toast.success(response.message);
+          toast.success(response.message,{ autoClose: 2000 });
           setFormData({ username: '', password: ''});
           if(popupHeading == 'Register'){
             toggleRegisterPopup();
@@ -111,7 +112,9 @@ function LoginRegisterForm({popupHeading}) {
             name='username'
               value={formData.username}
               onChange={handleFormChange}
-              error={errors.username} />
+              error={errors.username}
+              disabled={loading}
+               />
           </div>
           <div className="form-row">
             <label htmlFor="password">Password</label>
@@ -124,6 +127,7 @@ function LoginRegisterForm({popupHeading}) {
                 value={formData.password}
                 onChange={handleFormChange}
                 error={errors.password}
+                disabled={loading}
               />
               <span className="toggle-password" onClick={togglePasswordVisibility}>
                 <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
@@ -136,7 +140,7 @@ function LoginRegisterForm({popupHeading}) {
           {errors.password && <p className="error-message">{errors.password}</p>}
 
           <div className="form-row-button">
-          <button type="submit" className='btn' style={{'marginTop':'30px'}}>{popupHeading}</button>
+          <button type="submit" className='btn' style={{'marginTop':'30px',cursor: loading ? 'not-allowed' : 'pointer',opacity: loading ? 0.6 : 1}}  disabled={loading}>{popupHeading}</button>
           </div>
           {loading && <div> <Loader /> </div>}
       </form>

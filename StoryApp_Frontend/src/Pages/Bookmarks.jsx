@@ -45,8 +45,10 @@ function Bookmarks() {
     <h2 className="heading">Your Bookmarked </h2>
     <div className='story-cards-container'>
     <div className='category-cards'>
-    {loader ? <Loader/>  :
-    (bookmarkedStories.map((slide) => (
+    {loader ? <Loader/>  : bookmarkedStories.length === 0 ? (
+              <p className="no-bookmarks-message">No bookmarked stories found. Please bookmark your stories first to see them here.</p>
+            ) : (
+    bookmarkedStories.map((slide) => (
               
               <div key={slide._id} className="story-card">
                 {isVideoUrl(slide.mediaUrl) ? ( <video src={slide.mediaUrl}  loop muted playsInline style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover',  }} /> ) : ( <div style={{ backgroundImage: `url(${slide.mediaUrl})`, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundSize: 'cover', backgroundPosition: 'center',   }} /> )} 

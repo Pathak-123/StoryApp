@@ -48,11 +48,11 @@ function Header({ avatarUrl }) {
   };
   function logouthandler() {
     localStorage.removeItem("token");
-    toast.success("User Logged Out Successfully");
+    toast.success("User Logged Out Successfully",{autoClose:1000});
     logout();
     setTimeout(() => {
       window.location.reload();
-    }, 2000);
+    }, 1000);
   }
   return (
     <header className="header">

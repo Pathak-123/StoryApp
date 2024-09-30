@@ -82,8 +82,8 @@ function YourStory({activeCategories}) {
     {loading ? (  
           <div className="loading">{<Loader/>}</div>
         ) :userStories.length === 0 ? (
-          <div className="no-stories-found">No stories found. <br />
-          Please create your story first to see it here!</div>
+          <p className='no-bookmarks-message'>No stories found. <br />
+          Please create your story first to see it here!</p>
         ) : (
           <>
     <div className='story-cards-container'>
@@ -105,9 +105,11 @@ function YourStory({activeCategories}) {
         ))}
       </div>
       </div>
+      {userStories.length > 4 && (
       <button className="btn see-more-button" onClick={handleSeeMore}>
         {showAllStories ? 'See Less' : 'See More'}
       </button>
+    )}
       </>
         )}
     </div>
