@@ -80,7 +80,15 @@ const createStory = async (req, res) => {
                 message: 'Story not found'
             });
 
-            story.slides = slides;
+            // story.slides = slides;
+            if (slides) {
+              story.slides = story.slides.map((existingSlide, index) => ({
+                ...existingSlide._doc, 
+                heading: slides[index].heading || existingSlide.heading,
+                description: slides[index].description || existingSlide.description, 
+                mediaUrl: slides[index].mediaUrl || existingSlide.mediaUrl, 
+              }));
+            }
             story.category = category;
 
         await story.save();
