@@ -45,6 +45,7 @@ const closeCreateStoryPopup=(isEditing)=>{
     //  window.location.reload();
   }else{
    window.location.reload();
+   navigate('/')
   }
 }
 

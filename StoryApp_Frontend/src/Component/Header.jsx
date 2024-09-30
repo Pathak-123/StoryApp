@@ -54,9 +54,14 @@ function Header({ avatarUrl }) {
       window.location.reload();
     }, 1000);
   }
+  const handleNavigateHome = () => {
+    navigate("/");
+  };
   return (
     <header className="header">
-      <div className="heading">StoryApp</div>
+      <div className="heading" onClick={handleNavigateHome} style={{ cursor: "pointer" }}>
+        StoryApp
+      </div>
       <div className="header-right">
         {!isAuthenticated ? (
           <>

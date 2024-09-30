@@ -163,13 +163,13 @@ function CreateStoryPopUp({ editingStory }) {
                   </button>
                 )}
                 <div className="add-slider-button" key={index}>
-                  <p>Slider</p>
+                  <p>Slide</p>
                   <p>{`${index + 1}`}</p>
                 </div>
               </div>
             ))}
             {addSlider.length < 6 && (
-              <div className="add-slider-button" onClick={handleAddSlider}>
+              <div className="add-slider-button" onClick={handleAddSlider} style={{ cursor: "pointer" }}>
                 <p>Add</p>
                 <p>+</p>
               </div>
