@@ -132,6 +132,12 @@
 .slide-line.active {
   animation: progress-animation 15s linear forwards;
 }
+.slide-line.running {
+  animation-play-state: running;
+}
+.slide-line.paused {
+  animation-play-state: paused;
+}
 .empty-div-slide{
   height:calc(400px - 155px);
   display: flex;

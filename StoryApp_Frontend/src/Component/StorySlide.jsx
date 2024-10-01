@@ -19,7 +19,7 @@ const StorySlide = ({ storyID, slideId, onClose  }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0); 
-  const { userId,toggleLoginPopup,isAuthenticated } = useContext(PopupContext);
+  const { userId,toggleLoginPopup,isAuthenticated,isLoginPopupOpen } = useContext(PopupContext);
   const [slides, setSlides] = useState(null); 
   const [loading, setLoading] = useState(true); 
   const [downloadComplete, setDownloadComplete] = useState(false);
@@ -54,7 +54,7 @@ const StorySlide = ({ storyID, slideId, onClose  }) => {
 
     if (!slides || slides.length === 0) return;
     const timer = setInterval(() => {
-    
+    if(!isLoginPopupOpen){
       setCurrentSlideIndex((prevIndex) => {
         if (prevIndex < slides.length - 1) {
           return prevIndex + 1;
@@ -64,6 +64,7 @@ const StorySlide = ({ storyID, slideId, onClose  }) => {
           return prevIndex;
         }
       });
+    }
     }, 15000);
 return () => clearInterval(timer);
   }, [slides,onClose]);
@@ -74,7 +75,6 @@ return () => clearInterval(timer);
   useEffect(() => {
     if (!slides || slides.length === 0) return;
     const slideFromParams = searchParams.get('slide');
-    console.log(slideFromParams);
     if (slideFromParams && slides.length) {
       const slideIndex = slides.findIndex(slide => slide._id === slideFromParams);
       if (slideIndex !== -1 && slideIndex !== currentSlideIndex) {
@@ -299,6 +299,7 @@ return () => clearInterval(timer);
           <button 
             className="nav-button" 
             onClick={handlePrevious} 
+            style={{visibility: isLoginPopupOpen ? 'hidden' : ''}}
             disabled={currentSlideIndex === 0}
           >
             <FontAwesomeIcon icon={faChevronLeft} />
@@ -317,7 +318,7 @@ return () => clearInterval(timer);
                         {slides.map((slide, index) => (
                            <div key={index} className="slide-line-wrapper">
                            <div
-                             className={`slide-line ${currentSlideIndex === index ? 'active' : ''}`}
+                             className={`slide-line ${currentSlideIndex === index ? 'active' : ''} ${isBookmarkLoading || isLikeLoading || isLoginPopupOpen ? 'paused' : 'running'}`}
                            ></div>
                          </div>
 
@@ -383,6 +384,7 @@ return () => clearInterval(timer);
           <button 
             className="nav-button" 
             onClick={handleNext} 
+            style={{visibility: isLoginPopupOpen ? 'hidden' : ''}}
             disabled={currentSlideIndex === slides.length - 1}
           >
               <FontAwesomeIcon icon={faChevronRight} />
