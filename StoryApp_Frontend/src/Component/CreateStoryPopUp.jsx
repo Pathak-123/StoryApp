@@ -73,6 +73,9 @@ function CreateStoryPopUp({ editingStory }) {
   const handleNextSlide = () => {
     if (currentSlide < addSlider.length - 1) setCurrentSlide(currentSlide + 1);
   };
+  const handleSelectSlide = (index) => {
+    setCurrentSlide(index);
+  };
 
   const handleCreateStoryDataSubmit = async () => {
     const isValid = addSlider.every(
@@ -162,7 +165,10 @@ function CreateStoryPopUp({ editingStory }) {
                     X
                   </button>
                 )}
-                <div className="add-slider-button" key={index}>
+                <div className={`add-slider-button ${
+                    currentSlide === index ? "active" : ""
+                  }`} key={index} onClick={() => handleSelectSlide(index)}
+        style={{ cursor: "pointer" }}>
                   <p>Slide</p>
                   <p>{`${index + 1}`}</p>
                 </div>

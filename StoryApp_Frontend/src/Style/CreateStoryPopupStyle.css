@@ -81,6 +81,9 @@ padding: 4px;
   position: relative;
   margin-bottom: 10px;
 }
+.add-slider-button.active {
+  border: 2px solid blue !important;
+}
 .add-slider-close-icon{
   color:red;
   border-radius: 100%;

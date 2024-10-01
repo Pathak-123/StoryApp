@@ -24,6 +24,8 @@ const StorySlide = ({ storyID, slideId, onClose  }) => {
   const [loading, setLoading] = useState(true); 
   const [downloadComplete, setDownloadComplete] = useState(false);
   const [showClipboardMessage, setShowClipboardMessage] = useState(false);
+  const [isBookmarkLoading, setIsBookmarkLoading] = useState(false);
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
   const videoRef = useRef(null);
   useEffect(() => {
     const loadSlides = async () => {
@@ -118,38 +120,56 @@ return () => clearInterval(timer);
   }, [currentSlideIndex, slides, userId, storyID, setSearchParams]);
 
   const handleBookmarkClick = async () => {
-    if(isAuthenticated){
+    if(isAuthenticated && !isBookmarkLoading){
+      setIsBookmarkLoading(true);
      
       try {
         const currentSlideId = slides[currentSlideIndex]._id;
       let updatedSlides = [...slides];
       if(isBookmarked){
-        const response = await unbookmarkStory(storyID, currentSlideId);
-        if (response.success) {
-          setIsBookmarked(false);
-          updatedSlides[currentSlideIndex] = {
-            ...updatedSlides[currentSlideIndex],
-            bookmarked: updatedSlides[currentSlideIndex].bookmarked.filter(id => id !== userId)
+        setIsBookmarked(false);
+        updatedSlides[currentSlideIndex] = {
+          ...updatedSlides[currentSlideIndex],
+          bookmarked: updatedSlides[currentSlideIndex].bookmarked.filter(id => id !== userId)
         };
-        setSlides(updatedSlides); 
-        }
-
-      }
-      else {
-        const response = await BookmarkedStories(storyID, currentSlideId);
-        if (response.success) {
+        setSlides(updatedSlides);
+        const response = await unbookmarkStory(storyID, currentSlideId);
+        if (!response.success) {
           setIsBookmarked(true);
           updatedSlides[currentSlideIndex] = {
             ...updatedSlides[currentSlideIndex],
             bookmarked: [...updatedSlides[currentSlideIndex].bookmarked, userId]
         };
         setSlides(updatedSlides); 
+        toast.error("Error while UnBookmarking. Please try again");
+        }
+
+      }
+      else {
+        setIsBookmarked(true);
+        updatedSlides[currentSlideIndex] = {
+          ...updatedSlides[currentSlideIndex],
+          bookmarked: [...updatedSlides[currentSlideIndex].bookmarked, userId]
+        };
+        setSlides(updatedSlides);
+        const response = await BookmarkedStories(storyID, currentSlideId);
+        if (!response.success) {
+          setIsBookmarked(false);
+        updatedSlides[currentSlideIndex] = {
+          ...updatedSlides[currentSlideIndex],
+          bookmarked: updatedSlides[currentSlideIndex].bookmarked.filter(id => id !== userId)
+        };
+        setSlides(updatedSlides); 
+        toast.error("Error while Bookmarking. Please try again");
       }
     }
           
           
       } catch (error) {
           console.error('Failed to fetch categories:', error);
+      } finally{
+          setIsBookmarkLoading(false); 
+        
       }
     }
     else{
@@ -161,38 +181,59 @@ return () => clearInterval(timer);
 
 
   const handleLikeClick = async () => {
-    if(isAuthenticated){
+    if(isAuthenticated && !isLikeLoading){
+      setIsLikeLoading(true);
     try {
       const currentSlideId = slides[currentSlideIndex]._id;
       let updatedSlides = [...slides];
       if (isLiked) {
-        const response = await unlikeStory(storyID, currentSlideId);
-        if (response.success) {
-          setIsLiked(false);
-          setLikeCount(likeCount - 1);
-          updatedSlides[currentSlideIndex] = {
-            ...updatedSlides[currentSlideIndex],
-            likes: updatedSlides[currentSlideIndex].likes.filter(id => id !== userId),
-            likeCount: updatedSlides[currentSlideIndex].likeCount - 1
+        setIsLiked(false);
+        setLikeCount(likeCount - 1);
+        updatedSlides[currentSlideIndex] = {
+          ...updatedSlides[currentSlideIndex],
+          likes: updatedSlides[currentSlideIndex].likes.filter(id => id !== userId),
+          likeCount: updatedSlides[currentSlideIndex].likeCount - 1
         };
-        setSlides(updatedSlides); 
-        } 
-      } else {
-        const response = await likeStory(storyID, currentSlideId);
-        if (response.success) {
+        setSlides(updatedSlides);
+        const response = await unlikeStory(storyID, currentSlideId);
+        if (!response.success) {
           setIsLiked(true);
           setLikeCount(likeCount + 1);
           updatedSlides[currentSlideIndex] = {
             ...updatedSlides[currentSlideIndex],
             likes: [...updatedSlides[currentSlideIndex].likes, userId],
             likeCount: updatedSlides[currentSlideIndex].likeCount + 1
+          };
+          setSlides(updatedSlides);
+          toast.error("Error while UnLike. Please try again"); 
+        } 
+      } else {
+        setIsLiked(true);
+        setLikeCount(likeCount + 1);
+        updatedSlides[currentSlideIndex] = {
+          ...updatedSlides[currentSlideIndex],
+          likes: [...updatedSlides[currentSlideIndex].likes, userId],
+          likeCount: updatedSlides[currentSlideIndex].likeCount + 1
         };
-        setSlides(updatedSlides); 
+        setSlides(updatedSlides);
+        const response = await likeStory(storyID, currentSlideId);
+        if (!response.success) {
+          setIsLiked(false);
+          setLikeCount(likeCount - 1);
+          updatedSlides[currentSlideIndex] = {
+            ...updatedSlides[currentSlideIndex],
+            likes: updatedSlides[currentSlideIndex].likes.filter(id => id !== userId),
+            likeCount: updatedSlides[currentSlideIndex].likeCount - 1
+          };
+          setSlides(updatedSlides); 
+          toast.error("Error while Liking Slide. Please try again");
           
         } 
       }
     } catch (error) {
       toast.error('Failed to update like status');
+    } finally{
+      setIsLikeLoading(false);
     }
   }
   else{
@@ -321,8 +362,8 @@ return () => clearInterval(timer);
                     <div className="slide-bookmark-like-action-container">
                         <div className='fa-bookmark-icon'>
                           <FontAwesomeIcon icon={faBookmark} 
-                          style={{ color: isBookmarked ? 'blue' : 'white', cursor: 'pointer' }}
-                          onClick={handleBookmarkClick}
+                          style={{ color: isBookmarked ? 'blue' : 'white', cursor: isBookmarkLoading ? '' : 'pointer' }}
+                          onClick={!isBookmarkLoading ? handleBookmarkClick : null}
                            />
                         </div>
                         <div className='downloadClick' onClick={!downloadComplete ? handleDownloadClick : null}>
@@ -330,8 +371,8 @@ return () => clearInterval(timer);
                         </div>
                         <div >
                           <FontAwesomeIcon icon={faHeart} className='fa-heart'
-                          style={{ color: isLiked ? 'red' : 'white', cursor: 'pointer' }}
-                          onClick={handleLikeClick}
+                          style={{ color: isLiked ? 'red' : 'white', cursor: isLikeLoading ? '' : 'pointer', }}
+                          onClick={!isLikeLoading ? handleLikeClick : null}
                            />{' '} {likeCount > 0 && ` ${likeCount}`}
                         </div>
                     </div>
