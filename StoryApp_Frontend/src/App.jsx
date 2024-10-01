@@ -20,7 +20,7 @@ function App() {
     <Header avatarUrl={Avatar} />
     <Routes>
       <Route path="/" element={<Home />}/>
-      <Route path="/bookmarks"  element={<Bookmarks />}/>
+      <Route path="/bookmarks"  element={<ProtectedRoute element={Bookmarks} />}/>
       <Route path="/your-story" element={<ProtectedRoute element={YourStory} activeCategories={1}  />} />
     </Routes>
     </PopupProvider>
