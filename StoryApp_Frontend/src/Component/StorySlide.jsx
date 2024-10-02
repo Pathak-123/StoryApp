@@ -1,7 +1,7 @@
 import React ,{useState,useEffect,useContext,useRef} from 'react'
 import '../Style/StorySlideStyle.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faBookmark, faHeart ,faPaperPlane,faArrowDown}  from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faBookmark, faHeart ,faPaperPlane,faPlay}  from '@fortawesome/free-solid-svg-icons';
 
 import '../Style/StoryCardsStyle.css';
 import { useSearchParams } from 'react-router-dom';
@@ -27,6 +27,9 @@ const StorySlide = ({ storyID, slideId, onClose  }) => {
   const [isBookmarkLoading, setIsBookmarkLoading] = useState(false);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const videoRef = useRef(null);
+  const [userInteracted, setUserInteracted] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false); 
+  const autoAdvanceTimeoutRef = useRef(null); 
   useEffect(() => {
     const loadSlides = async () => {
       if (!storyID) return;  
@@ -53,21 +56,25 @@ const StorySlide = ({ storyID, slideId, onClose  }) => {
   useEffect(() => {
 
     if (!slides || slides.length === 0) return;
-    const timer = setInterval(() => {
-    if(!isLoginPopupOpen){
-      setCurrentSlideIndex((prevIndex) => {
-        if (prevIndex < slides.length - 1) {
-          return prevIndex + 1;
-        } else {
-          
-          onClose();
-          return prevIndex;
-        }
-      });
-    }
-    }, 15000);
-return () => clearInterval(timer);
-  }, [slides,onClose]);
+if (autoAdvanceTimeoutRef.current) {
+  clearTimeout(autoAdvanceTimeoutRef.current);
+}
+if (isLoginPopupOpen) return;
+const currentSlide = slides[currentSlideIndex];
+const currentIsVideo = isVideoUrl(currentSlide.mediaUrl);
+if (currentIsVideo && !isVideoPlaying) {
+  return;
+}
+autoAdvanceTimeoutRef.current = setTimeout(() => {
+  handleNext();
+}, 15000);
+return () => {
+  if (autoAdvanceTimeoutRef.current) {
+    clearTimeout(autoAdvanceTimeoutRef.current);
+  }
+};
+  }, [slides, currentSlideIndex, isVideoPlaying, isLoginPopupOpen]);
+
 
   const handleClose = () => {
     onClose();
@@ -88,6 +95,8 @@ return () => clearInterval(timer);
       const nextSlideId = slides[currentSlideIndex + 1]._id;
       setCurrentSlideIndex(currentSlideIndex + 1);
       setSearchParams({ story: storyID, slide: nextSlideId });
+    }else {
+      onClose();
     }
   };
 
@@ -109,15 +118,37 @@ return () => clearInterval(timer);
     setLikeCount(currentSlide.likeCount);
     setDownloadComplete(false);
     setShowClipboardMessage(false);
+    if (isVideoUrl(currentSlide.mediaUrl) && videoRef.current) {
     if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
+      // videoRef.current.currentTime = 0;
+      if (userInteracted) {
+        videoRef.current.play(); 
+      } else {
+        videoRef.current.pause(); 
+      }
+      setIsVideoPlaying(userInteracted);
     }
+  }
    
     const slideId = currentSlide._id;
     setSearchParams({ story: storyID, slide: slideId });
     
   }, [currentSlideIndex, slides, userId, storyID, setSearchParams]);
+
+  const handleVideoClick = () => {
+    setUserInteracted(true); 
+    setIsVideoPlaying(true); 
+    if (videoRef.current) {
+      videoRef.current.play(); 
+    }
+  };
+  const handlePausedClick = () => {
+    setUserInteracted(false); 
+    setIsVideoPlaying(false); 
+    if (videoRef.current) {
+      videoRef.current.pause(); 
+    }
+  };
 
   const handleBookmarkClick = async () => {
     if(isAuthenticated && !isBookmarkLoading){
@@ -174,6 +205,7 @@ return () => clearInterval(timer);
     }
     else{
       toggleLoginPopup();
+      handlePausedClick();
     }
  
   };
@@ -238,12 +270,14 @@ return () => clearInterval(timer);
   }
   else{
     toggleLoginPopup();
+    handlePausedClick();
   }
   };
  
   const handleDownloadClick = async () => {
     if (!isAuthenticated) {
       toggleLoginPopup();
+      handlePausedClick();
       return;
     }
     const currentSlide = slides[currentSlideIndex];
@@ -318,7 +352,7 @@ return () => clearInterval(timer);
                         {slides.map((slide, index) => (
                            <div key={index} className="slide-line-wrapper">
                            <div
-                             className={`slide-line ${currentSlideIndex === index ? 'active' : ''} ${isBookmarkLoading || isLikeLoading || isLoginPopupOpen ? 'paused' : 'running'}`}
+                             className={`slide-line ${currentSlideIndex === index ? 'active' : ''} ${isBookmarkLoading || isLikeLoading || isLoginPopupOpen || (isVideoUrl(slides[currentSlideIndex].mediaUrl) && !isVideoPlaying) ? 'paused' : 'running'}`}
                            ></div>
                          </div>
 
@@ -336,8 +370,18 @@ return () => clearInterval(timer);
                </div>
                <div className='empty-div-slide' >
                 <div className='left-empty-div' onClick={handlePrevious}></div>
+                {isVideoUrl(slides[currentSlideIndex].mediaUrl) && !isVideoPlaying ? (
+                <div 
+                  style={{ color: 'white' }} 
+                  onClick={handleVideoClick}  
+                  className='play-button-container'
+                >
+                  <FontAwesomeIcon icon={faPlay} className="play-button"/>
+                </div>
+              ) : ''}
                 <div className='right-empty-div' onClick={handleNext}></div>
                </div>
+             
               <div className='card-overlay slide-overlay'>
               {showClipboardMessage && (
                   <div style={{

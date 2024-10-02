@@ -9,7 +9,6 @@ export const checkVideoDuration = (url) => {
         const video = document.createElement('video');
         video.src = url;
         video.onloadedmetadata = () => {
-            console.log(video.duration);
             if (Math.floor(video.duration) > 15) {
                 
                 resolve(false);
