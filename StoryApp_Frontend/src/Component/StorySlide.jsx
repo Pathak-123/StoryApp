@@ -401,7 +401,7 @@ return () => {
                   </div>
                 )}
                     <div>
-                        <h4 className='slide-title'>{slides[currentSlideIndex].heading}</h4>
+                        <h4 className='slide-title'>{truncateDescription(slides[currentSlideIndex].heading,4)}</h4>
                         <p className='slide-text'>{truncateDescription(slides[currentSlideIndex].description,11)}</p>
                     </div>
                     <div className="slide-bookmark-like-action-container">
