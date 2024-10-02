@@ -24,9 +24,8 @@ export const checkVideoDuration = (url) => {
 };
 
 export const truncateDescription = (description,length) => {
-    const words = description.split(' ');
-    if (words.length > length) {
-      return words.slice(0, length).join(' ') + '...';
-    }
+    if (description.length > length) {
+        return description.slice(0, length) + '...';
+      }
     return description;
   };

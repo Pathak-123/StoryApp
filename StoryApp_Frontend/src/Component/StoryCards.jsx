@@ -77,8 +77,8 @@ let showYourStory = false;
                 <div key={story._id} className="story-card"   onClick={() => handleCardClick(story)}>
                 {isVideoUrl(story.slides[0].mediaUrl) ? ( <video src={story.slides[0].mediaUrl}  loop muted playsInline style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1000, }} /> ) : ( <div style={{ backgroundImage: `url(${story.slides[0].mediaUrl})`, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 1000,  }} /> )}  
                   <div className="card-overlay">
-                    <h3>{truncateDescription(story.slides[0].heading,5)}</h3>
-                    <p className='text'>{truncateDescription(story.slides[0].description,18)}</p>
+                    <h3>{truncateDescription(story.slides[0].heading,35)}</h3>
+                    <p className='text'>{truncateDescription(story.slides[0].description,100)}</p>
                   </div>
                 </div>
               ))
