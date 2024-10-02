@@ -10,7 +10,7 @@ import downloadDone from '../assets/download_done.png'
 import { toast } from 'react-toastify';
 import { BookmarkedStories, getStorySlides, likeStory, unbookmarkStory, unlikeStory } from '../services/StoryAPIs';
 import { PopupContext } from '../util/PopupContext';
-import { isVideoUrl } from '../util/HelperFunction';
+import { isVideoUrl, truncateDescription } from '../util/HelperFunction';
 import Loader from './Loader';
 
 const StorySlide = ({ storyID, slideId, onClose  }) => {
@@ -402,7 +402,7 @@ return () => {
                 )}
                     <div>
                         <h4 className='slide-title'>{slides[currentSlideIndex].heading}</h4>
-                        <p className='slide-text'>{slides[currentSlideIndex].description}</p>
+                        <p className='slide-text'>{truncateDescription(slides[currentSlideIndex].description,11)}</p>
                     </div>
                     <div className="slide-bookmark-like-action-container">
                         <div className='fa-bookmark-icon'>

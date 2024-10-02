@@ -2,7 +2,7 @@ import React, { useState,useContext, useEffect } from 'react';
 import '../Style/StoryCardsStyle.css';
 import YourStory from '../Pages/YourStory';
 import { PopupContext } from '../util/PopupContext';
-import { isVideoUrl } from '../util/HelperFunction';
+import { isVideoUrl, truncateDescription } from '../util/HelperFunction';
 import Loader from './Loader';
 
 function StoryCards({isAuthenticate,categories,setCategories ,shimmer,activeCategories}) {
@@ -78,7 +78,7 @@ let showYourStory = false;
                 {isVideoUrl(story.slides[0].mediaUrl) ? ( <video src={story.slides[0].mediaUrl}  loop muted playsInline style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1000, }} /> ) : ( <div style={{ backgroundImage: `url(${story.slides[0].mediaUrl})`, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 1000,  }} /> )}  
                   <div className="card-overlay">
                     <h3>{story.slides[0].heading}</h3>
-                    <p className='text'>{story.slides[0].description}</p>
+                    <p className='text'>{truncateDescription(story.slides[0].description,18)}</p>
                   </div>
                 </div>
               ))
